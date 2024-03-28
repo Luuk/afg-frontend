@@ -1,33 +1,16 @@
 import OpenAI from 'openai';
 import { OpenAIStream, StreamingTextResponse } from 'ai';
+import { listToStrings } from '@/lib/utils';
+import {
+  generalInstructions,
+  stylingInstructions,
+} from '@/lib/ai-instructions';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
 export const runtime = 'edge';
-
-function listToStrings(s: string[]): string {
-  const space: string = '\n';
-  return s.join(space);
-}
-
-const general_instructions = [
-  'You are a coding expert, you create HTML and Tailwind pages.',
-  'You make the styling using Tailwind',
-  'You only return the body.',
-  'You always make the pages you make fully responsive.',
-  'You never make a navbar or menu.',
-  'You create several content sections filled with content.',
-  'You return only the code, nothing else, just the code.',
-];
-
-const styling_instructions = [
-  'The primary color is: #0017ee.',
-  'Colors should only be applied to buttons.',
-  'The background should always be white.',
-  'Text should always be black.',
-];
 
 export async function POST(req: Request) {
   const { instructions } = await req.json();
@@ -38,9 +21,9 @@ export async function POST(req: Request) {
       {
         role: 'system',
         content:
-          listToStrings(general_instructions) +
+          listToStrings(generalInstructions) +
           '' +
-          listToStrings(styling_instructions),
+          listToStrings(stylingInstructions),
       },
       { role: 'user', content: instructions },
     ],

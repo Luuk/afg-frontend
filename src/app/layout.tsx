@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
+import React from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -10,14 +11,12 @@ export const metadata: Metadata = {
   description: 'Proof of concept',
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <html lang='en'>
-      <body className={cn(inter.className, 'pt-4')}>{children}</body>
+      <body className={cn(inter.className)}>{children}</body>
     </html>
   );
-}
+};
+
+export default RootLayout;
