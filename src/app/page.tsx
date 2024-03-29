@@ -11,7 +11,7 @@ const GenerationPage = () => {
     <div className='relative flex h-screen justify-center'>
       <HtmlFrame
         htmlString={response}
-        className='absolute h-[calc(100%-11rem)] w-[calc(100%-5rem)]'
+        className='absolute top-2 h-[calc(100%-10.5rem)] w-[calc(100%-5rem)]'
       />
       <InstructionsForm
         onSubmit={generateHtml}
