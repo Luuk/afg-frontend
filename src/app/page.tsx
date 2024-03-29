@@ -3,20 +3,21 @@
 import HtmlFrame from '@/components/html-frame';
 import InstructionsForm from '@/components/instructions-form';
 import useHtmlGeneration from '@/hooks/use-html-generation';
+import { Button } from '@/components/ui/button';
 
 const GenerationPage = () => {
   const { generateHtml, isLoading, response } = useHtmlGeneration();
 
   return (
-    <div className='relative flex h-screen justify-center'>
+    <div className='h-full'>
       <HtmlFrame
         htmlString={response}
-        className='absolute top-2 h-[calc(100%-10.5rem)] w-[calc(100%-5rem)]'
+        className='h-[calc(100vh-10rem)] w-full'
       />
       <InstructionsForm
         onSubmit={generateHtml}
         isLoading={isLoading}
-        className='absolute bottom-0 w-[calc(100%-5rem)] space-y-8 pb-4'
+        className='pt-2'
       />
     </div>
   );

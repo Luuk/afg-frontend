@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import React from 'react';
+import { cn } from '@/lib/utils';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <html lang='en'>
-      <body className={inter.className}>{children}</body>
+      <body className={cn(inter.className, 'px-4 pt-2')}>{children}</body>
     </html>
   );
 };

@@ -30,12 +30,12 @@ const InstructionsForm: React.FC<DashboardFormProps> = ({
       <div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
-            <Label>AI Experiment</Label>
             <FormField
               control={form.control}
               name='instructions'
               render={({ field }) => (
                 <FormItem>
+                  <Label>AI Proof of Concept</Label>
                   <Input placeholder='Instructions' {...field} />
                   <FormMessage />
                 </FormItem>
