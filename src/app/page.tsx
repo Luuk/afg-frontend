@@ -8,17 +8,17 @@ const GenerationPage = () => {
   const { generateHtml, isLoading, response } = useHtmlGeneration();
 
   return (
-    <>
+    <div className='relative flex h-screen justify-center'>
       <HtmlFrame
         htmlString={response}
-        className='absolute h-[calc(100%-11rem)] w-full'
+        className='absolute h-[calc(100%-11rem)] w-[calc(100%-5rem)]'
       />
       <InstructionsForm
         onSubmit={generateHtml}
         isLoading={isLoading}
-        className='absolute bottom-0 w-full space-y-8 pb-4'
+        className='absolute bottom-0 w-[calc(100%-5rem)] space-y-8 pb-4'
       />
-    </>
+    </div>
   );
 };
 
