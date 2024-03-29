@@ -12,15 +12,19 @@ const HtmlFrame: React.FC<DashboardIFrameProps> = ({
   className,
 }) => {
   const frameRef = useRef<HTMLIFrameElement>(null);
-  const frameClassName = `border border-slate-200 ${className}`;
+  const scriptAddedRef = useRef<boolean>(false);
+  const frameClassName = `border border-slate-200 rounded-md ${className}`;
 
   useEffect(() => {
     if (!frameRef.current) return;
     if (frameRef.current.contentDocument) {
-      const scriptElement =
-        frameRef.current.contentDocument.createElement('script');
-      scriptElement.src = 'https://cdn.tailwindcss.com';
-      frameRef.current.contentDocument.head.appendChild(scriptElement);
+      if (!scriptAddedRef.current) {
+        const scriptElement =
+          frameRef.current.contentDocument.createElement('script');
+        scriptElement.src = 'https://cdn.tailwindcss.com';
+        frameRef.current.contentDocument.head.appendChild(scriptElement);
+        scriptAddedRef.current = true;
+      }
       frameRef.current.contentDocument.body.innerHTML = htmlString;
     }
   }, [htmlString]);
