@@ -2,20 +2,25 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
+import DownloadHtmlButton from '@/components/download-html-button';
 import { Label } from '@/components/ui/label';
 import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-interface DashboardFormProps {
+interface InstructionsFormProps {
   onSubmit: SubmitHandler<any>;
   isLoading: boolean;
+  isFinished: boolean;
+  response: string;
   className?: string;
 }
 
-const InstructionsForm: React.FC<DashboardFormProps> = ({
+const InstructionsForm: React.FC<InstructionsFormProps> = ({
   onSubmit,
   isLoading,
+  isFinished,
+  response,
   className,
 }) => {
   const formClassName = `space-y-8 ${className}`;
@@ -60,6 +65,13 @@ const InstructionsForm: React.FC<DashboardFormProps> = ({
                 </svg>
               )}
             </Button>
+            {isFinished && (
+              <DownloadHtmlButton
+                className='ml-2'
+                htmlString={response}
+                fileName='output'
+              />
+            )}
           </form>
         </Form>
       </div>

@@ -3,10 +3,12 @@ import { useState } from 'react';
 const useHtmlGeneration = () => {
   const [response, setResponse] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isFinished, setIsFinished] = useState<boolean>(false);
 
   const generateHtml = async (data: any) => {
     setResponse('');
     setIsLoading(true);
+    setIsFinished(false);
 
     const res = await fetch('http://127.0.0.1:8000/generate', {
       method: 'POST',
@@ -27,9 +29,10 @@ const useHtmlGeneration = () => {
     }
 
     setIsLoading(false);
+    setIsFinished(true);
   };
 
-  return { generateHtml, isLoading, response };
+  return { generateHtml, isLoading, isFinished, response };
 };
 
 export default useHtmlGeneration;
