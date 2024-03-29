@@ -3,7 +3,6 @@
 import HtmlFrame from '@/components/html-frame';
 import InstructionsForm from '@/components/instructions-form';
 import useHtmlGeneration from '@/hooks/use-html-generation';
-import { Button } from '@/components/ui/button';
 
 const GenerationPage = () => {
   const { generateHtml, isLoading, response } = useHtmlGeneration();
