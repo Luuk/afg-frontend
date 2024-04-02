@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import DownloadHtmlButton from '@/components/download-html-button';
 import { Label } from '@/components/ui/label';
 import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 interface InstructionsFormProps {
@@ -27,7 +27,7 @@ const InstructionsForm: React.FC<InstructionsFormProps> = ({
   const form = useForm({
     defaultValues: {
       instructions:
-        'Page about an upcoming easter event with a brunch and bingo. The lunch will take place at 12:00 at iO Digital. The bingo starts at 12:15, 3 rounds will be played and will take around 45 minutes.',
+        'An upcoming easter event with a brunch and bingo that will be on the 26th of March. The lunch will take place at 12:00 at iO Digital. The bingo starts at 12:15, 3 rounds will be played and will take around 45 minutes.',
     },
   });
   return (
@@ -40,8 +40,8 @@ const InstructionsForm: React.FC<InstructionsFormProps> = ({
               name='instructions'
               render={({ field }) => (
                 <FormItem>
-                  <Label>AI Proof of Concept</Label>
-                  <Input placeholder='Instructions' {...field} />
+                  <Label>AI Experimentation</Label>
+                  <Textarea placeholder='Instructions' {...field} />
                   <FormMessage />
                 </FormItem>
               )}

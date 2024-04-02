@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <html lang='en'>
-      <body className={cn(inter.className, 'px-4 pt-2')}>{children}</body>
+      <body className={cn(inter.className, 'px-4 py-2')}>{children}</body>
     </html>
   );
 };
