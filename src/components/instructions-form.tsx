@@ -2,11 +2,11 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
+import DownloadHtmlButton from '@/components/download-html-button';
 import { Label } from '@/components/ui/label';
 import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import useDownloadHtml from '@/hooks/use-download-html';
 
 interface InstructionsFormProps {
   onSubmit: SubmitHandler<any>;
@@ -24,7 +24,6 @@ const InstructionsForm: React.FC<InstructionsFormProps> = ({
   className,
 }) => {
   const formClassName = `space-y-8 ${className}`;
-  const { downloadHtml } = useDownloadHtml();
   const form = useForm({
     defaultValues: {
       instructions:
@@ -67,14 +66,11 @@ const InstructionsForm: React.FC<InstructionsFormProps> = ({
               )}
             </Button>
             {isFinished && (
-              <Button
-                type='button'
-                variant='secondary'
-                className={className}
-                onClick={() => downloadHtml(response, 'output')}
-              >
-                Download
-              </Button>
+              <DownloadHtmlButton
+                className='ml-2'
+                htmlString={response}
+                fileName='output'
+              />
             )}
           </form>
         </Form>
