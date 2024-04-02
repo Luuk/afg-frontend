@@ -27,7 +27,7 @@ const InstructionsForm: React.FC<InstructionsFormProps> = ({
   const form = useForm({
     defaultValues: {
       instructions:
-        'Page about an upcoming easter event with a brunch and bingo.',
+        'Page about an upcoming easter event with a brunch and bingo. The lunch will take place at 12:00 at iO Digital. The bingo starts at 12:15, 3 rounds will be played and will take around 45 minutes.',
     },
   });
   return (
