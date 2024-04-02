@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const useHtmlGeneration = () => {
+const useGenerateHtml = () => {
   const [response, setResponse] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFinished, setIsFinished] = useState<boolean>(false);
@@ -35,4 +35,4 @@ const useHtmlGeneration = () => {
   return { generateHtml, isLoading, isFinished, response };
 };
 
-export default useHtmlGeneration;
+export default useGenerateHtml;

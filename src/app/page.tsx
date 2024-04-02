@@ -2,10 +2,11 @@
 
 import HtmlFrame from '@/components/html-frame';
 import InstructionsForm from '@/components/instructions-form';
-import useHtmlGeneration from '@/hooks/use-html-generation';
+import useGenerateHtml from '@/hooks/use-generate-html';
+import React from 'react';
 
 const GenerationPage = () => {
-  const { generateHtml, isLoading, isFinished, response } = useHtmlGeneration();
+  const { generateHtml, isLoading, isFinished, response } = useGenerateHtml();
 
   return (
     <div className='h-full'>
