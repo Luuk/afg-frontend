@@ -2,15 +2,12 @@
 
 import React, { useEffect, useRef } from 'react';
 
-interface DashboardIFrameProps {
+interface HTMLFrameProps {
   htmlString: string;
   className?: string;
 }
 
-const HtmlFrame: React.FC<DashboardIFrameProps> = ({
-  htmlString,
-  className,
-}) => {
+const HTMLFrame: React.FC<HTMLFrameProps> = ({ htmlString, className }) => {
   const frameRef = useRef<HTMLIFrameElement>(null);
   const scriptAddedRef = useRef<boolean>(false);
   const frameClassName = `border border-slate-200 rounded-md ${className}`;
@@ -32,4 +29,4 @@ const HtmlFrame: React.FC<DashboardIFrameProps> = ({
   return <iframe className={frameClassName} ref={frameRef}></iframe>;
 };
 
-export default HtmlFrame;
+export default HTMLFrame;

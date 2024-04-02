@@ -1,17 +1,22 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 
-interface DownloadableHTMLProps {
+interface DownloadHTMLProps {
   htmlString: string;
   fileName: string;
   className?: string;
 }
 
-const DownloadHtmlButton: React.FC<DownloadableHTMLProps> = ({
+const DownloadHTMLButton: React.FC<DownloadHTMLProps> = ({
   htmlString,
   fileName,
   className,
 }) => {
+  htmlString =
+    '<html lang="en-us"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><script src="https://cdn.tailwindcss.com"></script><title>Output</title></head>' +
+    htmlString +
+    '</html>';
+
   const handleDownload = () => {
     const element = document.createElement('a');
     const file = new Blob([htmlString], { type: 'text/html' });
@@ -34,4 +39,4 @@ const DownloadHtmlButton: React.FC<DownloadableHTMLProps> = ({
   );
 };
 
-export default DownloadHtmlButton;
+export default DownloadHTMLButton;

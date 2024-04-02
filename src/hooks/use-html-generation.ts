@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
-const useHtmlGeneration = () => {
+const useHTMLGeneration = () => {
   const [response, setResponse] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFinished, setIsFinished] = useState<boolean>(false);
 
-  const generateHtml = async (data: any) => {
+  const generateHTML = async (data: any) => {
     setResponse('');
     setIsLoading(true);
     setIsFinished(false);
@@ -32,7 +32,7 @@ const useHtmlGeneration = () => {
     setIsFinished(true);
   };
 
-  return { generateHtml, isLoading, isFinished, response };
+  return { generateHTML, isLoading, isFinished, response };
 };
 
-export default useHtmlGeneration;
+export default useHTMLGeneration;
