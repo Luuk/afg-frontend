@@ -47,7 +47,7 @@ const InstructionsForm: React.FC<InstructionsFormProps> = ({
               )}
             />
             <Button type='submit' disabled={isLoading}>
-              Generate
+              {isLoading ? 'Generating...' : 'Generate'}
               {isLoading && (
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
