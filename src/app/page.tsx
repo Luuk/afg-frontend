@@ -5,17 +5,19 @@ import InstructionsForm from '@/components/instructions-form';
 import useHTMLGeneration from '@/hooks/use-html-generation';
 
 const GenerationPage = () => {
-  const { generateHTML, isLoading, isFinished, response } = useHTMLGeneration();
+  const { generateHTML, isLoadingImages, isLoadingHTML, isFinished, response } =
+    useHTMLGeneration();
 
   return (
     <div className='h-full'>
       <HtmlFrame
         htmlString={response}
-        className='h-[calc(100vh-11rem)] w-full'
+        className='h-[calc(100vh-17rem)] w-full'
       />
       <InstructionsForm
         onSubmit={generateHTML}
-        isLoading={isLoading}
+        isLoadingImages={isLoadingImages}
+        isLoadingHTML={isLoadingHTML}
         isFinished={isFinished}
         response={response}
         className='pt-2'

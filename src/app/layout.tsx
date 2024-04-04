@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import React from 'react';
 import { cn } from '@/lib/utils';
+import { Toaster } from '@/components/ui/sonner';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -14,7 +15,10 @@ export const metadata: Metadata = {
 const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <html lang='en'>
-      <body className={cn(inter.className, 'px-4 py-2')}>{children}</body>
+      <body className={cn(inter.className, 'px-4 py-2')}>
+        <Toaster />
+        {children}
+      </body>
     </html>
   );
 };
