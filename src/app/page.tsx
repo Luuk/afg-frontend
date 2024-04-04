@@ -12,7 +12,7 @@ const GenerationPage = () => {
     <div className='h-full'>
       <HtmlFrame
         htmlString={response}
-        className='h-[calc(100vh-17rem)] w-full'
+        className='h-[calc(100vh-15.5rem)] w-full'
       />
       <InstructionsForm
         onSubmit={generateHTML}
