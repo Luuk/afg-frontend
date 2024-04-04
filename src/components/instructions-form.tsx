@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import DownloadHtmlButton from '@/components/download-html-button';
 import { Label } from '@/components/ui/label';
@@ -44,8 +44,8 @@ const InstructionsForm: React.FC<InstructionsFormProps> = ({
               name='pageDescription'
               render={({ field }) => (
                 <FormItem>
-                  <Label>Page Description</Label>
-                  <Textarea {...field} />
+                  <Label>Input</Label>
+                  <Textarea {...field} placeholder='Page Description' />
                   <FormMessage />
                 </FormItem>
               )}
@@ -56,7 +56,7 @@ const InstructionsForm: React.FC<InstructionsFormProps> = ({
               render={({ field: { value, onChange } }) => (
                 <FormItem className='max-w-96'>
                   <Label>Images to Generate</Label>
-                  <p>{value} Images</p>
+                  <p className='text-sm'>{value} Images</p>
                   <Slider
                     defaultValue={[0]}
                     min={0}
