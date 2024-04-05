@@ -54,10 +54,10 @@ const ComboBox: React.FC<ComboBoxProps> = ({ name, items, onChange }) => {
           <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-[200px] p-0'>
+      <PopoverContent className='w-96 p-0'>
         <Command>
           <CommandInput placeholder={`Search ${name.toLowerCase()}...`} />
-          <CommandEmpty>No framework found.</CommandEmpty>
+          <CommandEmpty>No {name.toLowerCase()} found.</CommandEmpty>
           <CommandGroup>
             {items.map((item) => (
               <CommandItem
