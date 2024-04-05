@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { Check, ChevronsUpDown } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -22,21 +22,25 @@ interface Item {
 }
 
 interface ComboBoxProps {
-  name: string;
+  label: string;
   items: Item[];
-  onChange?: (value: string) => void;
+  value?: string;
+  onChange: (value: string) => void;
 }
 
-const ComboBox: React.FC<ComboBoxProps> = ({ name, items, onChange }) => {
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState('');
+const ComboBox: React.FC<ComboBoxProps> = ({
+  label,
+  items,
+  value,
+  onChange,
+}) => {
+  const [open, setOpen] = useState(false);
+  const [currentValue, setCurrentValue] = useState(value);
 
   const handleSelect = (currentValue: string) => {
-    setValue(currentValue === value ? '' : currentValue);
     setOpen(false);
-    if (onChange) {
-      onChange(currentValue);
-    }
+    setCurrentValue(currentValue);
+    onChange(currentValue);
   };
 
   return (
@@ -48,16 +52,16 @@ const ComboBox: React.FC<ComboBoxProps> = ({ name, items, onChange }) => {
           aria-expanded={open}
           className='w-full justify-between'
         >
-          {value
-            ? items.find((item) => item.value === value)?.label
-            : `Select ${name.toLowerCase()}...`}
+          {currentValue
+            ? items.find((item) => item.value === currentValue)?.label
+            : `Select ${label.toLowerCase()}...`}
           <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-96 p-0'>
         <Command>
-          <CommandInput placeholder={`Search ${name.toLowerCase()}...`} />
-          <CommandEmpty>No {name.toLowerCase()} found.</CommandEmpty>
+          <CommandInput placeholder={`Search ${label.toLowerCase()}...`} />
+          <CommandEmpty>No {label.toLowerCase()} found.</CommandEmpty>
           <CommandGroup>
             {items.map((item) => (
               <CommandItem
