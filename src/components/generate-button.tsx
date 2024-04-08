@@ -22,7 +22,7 @@ const GenerateButton: React.FC<GenerateButtonProps> = ({
       onClick={onClick}
     >
       {!isLoadingHTML && !isLoadingImages ? (
-        <Image src={Sparkle} className='mr-2' alt='Spinner' />
+        <Image src={Sparkle} className='mr-2' alt='Sparkle' />
       ) : null}
       {isLoadingImages
         ? 'Generating Images...'
