@@ -4,20 +4,31 @@ import { toast } from 'sonner';
 interface GenerateHTMLBody {
   page_description: string;
   image_urls?: string[];
+  tone_of_voice?: string;
+  template?: string;
 }
 
 const useHTMLGeneration = () => {
   const [response, setResponse] = useState<string>('');
   const [isLoadingImages, setIsLoadingImages] = useState<boolean>(false);
   const [isLoadingHTML, setIsLoadingHTML] = useState<boolean>(false);
-  const [isFinished, setIsFinished] = useState<boolean>(false);
+  const [isFinished, setIsFinished] = useState<boolean>(true);
 
   const generateHTML = async (data: any) => {
     setResponse('');
     setIsFinished(false);
+
     let generateHTMLBody: GenerateHTMLBody = {
       page_description: data.pageDescription,
     };
+
+    if (data.toneOfVoice != 'none') {
+      generateHTMLBody.tone_of_voice = data.tone_of_voice;
+    }
+
+    if (data.template != 'none') {
+      generateHTMLBody.template = data.template;
+    }
 
     if (data.amountOfImages[0] > 0) {
       setIsLoadingImages(true);
