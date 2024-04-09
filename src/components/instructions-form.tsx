@@ -111,7 +111,7 @@ const InstructionsForm: React.FC<InstructionsFormProps> = ({
                 )}
               />
             </div>
-            <div className='grid grid-cols-4 items-center pt-2 md:grid-cols-5 md:gap-4'>
+            <div className='grid grid-cols-4 items-center pt-2 md:grid-cols-5 md:gap-1'>
               <GenerateButton
                 isLoadingImages={isLoadingImages}
                 isLoadingHTML={isLoadingHTML}
