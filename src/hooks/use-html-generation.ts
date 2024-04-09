@@ -12,7 +12,7 @@ const useHTMLGeneration = () => {
   const [response, setResponse] = useState<string>('');
   const [isLoadingImages, setIsLoadingImages] = useState<boolean>(false);
   const [isLoadingHTML, setIsLoadingHTML] = useState<boolean>(false);
-  const [isFinished, setIsFinished] = useState<boolean>(true);
+  const [isFinished, setIsFinished] = useState<boolean>(false);
 
   const generateHTML = async (data: any) => {
     setResponse('');

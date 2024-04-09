@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import Download from '../../public/svg/download.svg';
+import Download from '@/../public/svg/download.svg';
 
 interface DownloadHTMLProps {
   htmlString: string;

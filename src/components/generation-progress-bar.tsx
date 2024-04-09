@@ -25,7 +25,7 @@ const GenerationProgressBar: React.FC<GenerationProgressBarProps> = ({
       let count = 0;
       interval = setInterval(() => {
         if (count < 20) {
-          setValue((prevValue) => prevValue + 1);
+          setValue((prevValue) => prevValue + Math.random());
           count++;
         } else {
           clearInterval(interval);
