@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-interface GenerateHTMLBody {
-  page_description: string;
-  image_urls?: string[];
-  tone_of_voice?: string;
+interface GenerateHTMLData {
+  amountOfImages: number[];
+  pageDescription: string;
+  imageUrls?: string[];
+  toneOfVoice?: string;
   template?: string;
 }
 
@@ -14,21 +15,21 @@ const useHTMLGeneration = () => {
   const [isLoadingHTML, setIsLoadingHTML] = useState<boolean>(false);
   const [isFinished, setIsFinished] = useState<boolean>(false);
 
-  const generateHTML = async (data: any) => {
+  const generateHTML = async (data: GenerateHTMLData) => {
     setResponse('');
     setIsFinished(false);
 
-    let generateHTMLBody: GenerateHTMLBody = {
+    let generateImageBody = {
       page_description: data.pageDescription,
+      amount_of_images: data.amountOfImages[0],
     };
 
-    if (data.toneOfVoice != 'none') {
-      generateHTMLBody.tone_of_voice = data.tone_of_voice;
-    }
-
-    if (data.template != 'none') {
-      generateHTMLBody.template = data.template;
-    }
+    let generateHTMLBody = {
+      page_description: data.pageDescription,
+      image_urls: undefined,
+      tone_of_voice: data.toneOfVoice !== 'none' ? data.toneOfVoice : undefined,
+      template_name: data.template !== 'none' ? data.template : undefined,
+    };
 
     if (data.amountOfImages[0] > 0) {
       setIsLoadingImages(true);
@@ -37,10 +38,7 @@ const useHTMLGeneration = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          page_description: data.pageDescription,
-          amount_of_images: data.amountOfImages[0],
-        }),
+        body: JSON.stringify(generateImageBody),
       })
         .then((response) => response.json())
         .then((data) => {

@@ -34,7 +34,9 @@ const GenerationProgressBar: React.FC<GenerationProgressBarProps> = ({
     }
 
     if (isLoadingHTML && !response) {
-      setValue(25);
+      setTimeout(() => {
+        setValue(25);
+      }, 500);
     }
 
     if (response) {

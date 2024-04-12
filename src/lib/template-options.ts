@@ -4,15 +4,15 @@ export const templateOptions = [
     label: 'None',
   },
   {
-    value: 'template1',
+    value: 'template_1',
     label: 'Template 1',
   },
   {
-    value: 'template2',
+    value: 'template_2',
     label: 'Template 2',
   },
   {
-    value: 'template3',
+    value: 'template_3',
     label: 'Template 3',
   },
 ];
