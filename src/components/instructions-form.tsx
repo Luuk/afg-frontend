@@ -12,6 +12,7 @@ import ComboBox from '@/components/ui/combobox';
 import { templateOptions } from '@/lib/template-options';
 import { toneOfVoiceOptions } from '@/lib/tone-of-voice-options';
 import GenerationProgressBar from '@/components/generation-progress-bar';
+import { getSectionIdsFromHTML } from '@/lib/utils';
 
 interface InstructionsFormProps {
   onSubmit: SubmitHandler<any>;
@@ -19,6 +20,8 @@ interface InstructionsFormProps {
   isLoadingHTML: boolean;
   isFinished: boolean;
   response: string;
+  selectedSectionID: string;
+  setSelectedSectionID: (sectionID: string) => void;
   className?: string;
 }
 
@@ -28,6 +31,8 @@ const InstructionsForm: React.FC<InstructionsFormProps> = ({
   isLoadingHTML,
   isFinished,
   response,
+  selectedSectionID,
+  setSelectedSectionID,
   className,
 }) => {
   const formClassName = `space-y-8 ${className}`;
@@ -115,6 +120,7 @@ const InstructionsForm: React.FC<InstructionsFormProps> = ({
               <GenerateButton
                 isLoadingImages={isLoadingImages}
                 isLoadingHTML={isLoadingHTML}
+                selectedSectionID={selectedSectionID}
                 onClick={form.handleSubmit(onSubmit)}
               />
               {isFinished && (
@@ -130,6 +136,17 @@ const InstructionsForm: React.FC<InstructionsFormProps> = ({
                   isLoadingHTML={isLoadingHTML}
                   response={response}
                   className='col-span-2 md:col-span-4'
+                />
+              )}
+              {isFinished && (
+                <ComboBox
+                  label='Section'
+                  items={[
+                    { value: 'none', label: 'None' },
+                    ...getSectionIdsFromHTML(response),
+                  ]}
+                  value={selectedSectionID}
+                  onChange={(e) => setSelectedSectionID(e)}
                 />
               )}
             </div>
