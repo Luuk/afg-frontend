@@ -67,6 +67,7 @@ const GenerationForm: React.FC<InstructionsFormProps> = ({ className }) => {
                     <div>
                       <ComboBox
                         label='Templates'
+                        disabled={selectedSectionID !== 'none'}
                         items={templateOptions}
                         onChange={onChange}
                         value={value}
@@ -83,6 +84,7 @@ const GenerationForm: React.FC<InstructionsFormProps> = ({ className }) => {
                     <Label>Images to Generate</Label>
                     <p className='text-sm'>{value} Images</p>
                     <Slider
+                      disabled={selectedSectionID !== 'none'}
                       defaultValue={[0]}
                       min={0}
                       max={5}

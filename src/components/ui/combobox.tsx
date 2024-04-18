@@ -25,6 +25,7 @@ interface ComboBoxProps {
   label: string;
   items: Item[];
   value?: string;
+  disabled?: boolean;
   onChange: (value: string) => void;
 }
 
@@ -32,6 +33,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   label,
   items,
   value,
+  disabled,
   onChange,
 }) => {
   const [open, setOpen] = useState(false);
@@ -47,6 +49,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
+          disabled={disabled}
           variant='outline'
           role='combobox'
           aria-expanded={open}
