@@ -25,7 +25,15 @@ const HTMLFrame: React.FC<HTMLFrameProps> = ({
     const element = frameDocument.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      element.classList.add('bg-yellow-200');
+      element.classList.add('transition-all');
+      element.classList.add('duration-500');
+      element.classList.add('bg-yellow-100');
+      element.classList.add('border-4');
+      element.classList.add('border-yellow-300');
+      element.classList.add('rounded-xl');
+      element.classList.add('py-4');
+      element.classList.add('px-4');
+      element.classList.add('mt-4');
     }
   };
 
