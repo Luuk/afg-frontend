@@ -16,7 +16,7 @@ const GenerateButton = () => {
   let spinner = null;
   let loadingText = null;
 
-  if (isLoadingImages || isLoadingImages) {
+  if (isLoadingImages || isLoadingHTML) {
     spinner = (
       <Image src={Spinner} className='ml-2 animate-spin' alt='Spinner' />
     );
