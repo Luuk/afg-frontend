@@ -1,32 +1,59 @@
 'use client';
 
 import HTMLFrame from '@/components/html-frame';
-import InstructionsForm from '@/components/instructions-form';
-import useHTMLGeneration from '@/hooks/use-html-generation';
+import GenerationForm from '@/components/generation-form';
+import GenerationContext, {
+  GenerationState,
+} from '@/contexts/generation-context';
 import { useState } from 'react';
+import HTMLFrameContext, {
+  HTMLFrameState,
+} from '@/contexts/html-frame-context';
 
 const GenerationPage = () => {
-  const { generateHTML, isLoadingImages, isLoadingHTML, isFinished, response } =
-    useHTMLGeneration();
-  const [selectedSectionID, setSelectedSectionID] = useState<string>('none');
+  const [generationState, setGenerationState] = useState<GenerationState>({
+    isLoadingImages: false,
+    isLoadingHTML: false,
+    isFinished: false,
+    generatedHTML: '',
+  });
+
+  const [htmlFrameState, setHTMLFrameState] = useState<HTMLFrameState>({
+    selectedSectionID: 'none',
+  });
+
+  const updateGenerationState = (newState: Partial<GenerationState>) => {
+    setGenerationState((prevState) => ({
+      ...prevState,
+      ...newState,
+    }));
+  };
+
+  const updateHTMLFrameState = (newState: Partial<HTMLFrameState>) => {
+    setHTMLFrameState((prevState) => ({
+      ...prevState,
+      ...newState,
+    }));
+  };
 
   return (
     <div className='h-full'>
-      <HTMLFrame
-        htmlString={response}
-        highlightID={selectedSectionID}
-        className='h-[calc(100vh-26.5rem)] w-full lg:h-[calc(100vh-15.5rem)]'
-      />
-      <InstructionsForm
-        onSubmit={generateHTML}
-        isLoadingImages={isLoadingImages}
-        isLoadingHTML={isLoadingHTML}
-        isFinished={isFinished}
-        response={response}
-        selectedSectionID={selectedSectionID}
-        setSelectedSectionID={setSelectedSectionID}
-        className='pt-2'
-      />
+      <GenerationContext.Provider
+        value={{
+          ...generationState,
+          setGenerationState: updateGenerationState,
+        }}
+      >
+        <HTMLFrameContext.Provider
+          value={{
+            ...htmlFrameState,
+            setHTMLFrameState: updateHTMLFrameState,
+          }}
+        >
+          <HTMLFrame className='h-[calc(100vh-26.5rem)] w-full lg:h-[calc(100vh-15.5rem)]' />
+          <GenerationForm className='pt-2' />
+        </HTMLFrameContext.Provider>
+      </GenerationContext.Provider>
     </div>
   );
 };

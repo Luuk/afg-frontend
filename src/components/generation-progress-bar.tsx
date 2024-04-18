@@ -1,27 +1,24 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Progress } from '@/components/ui/progress';
+import GenerationContext from '@/contexts/generation-context';
 
 interface GenerationProgressBarProps {
-  isLoadingImages: boolean;
-  isLoadingHTML: boolean;
-  response: string;
   className?: string;
 }
 
 const GenerationProgressBar: React.FC<GenerationProgressBarProps> = ({
-  isLoadingImages,
-  isLoadingHTML,
-  response,
   className,
 }) => {
+  const { isLoadingImages, isLoadingHTML, generatedHTML } =
+    useContext(GenerationContext);
   const [value, setValue] = useState<number>(0);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
 
-    if (isLoadingImages && !response) {
+    if (isLoadingImages && !generatedHTML) {
       let count = 0;
       interval = setInterval(() => {
         if (count < 20) {
@@ -33,18 +30,18 @@ const GenerationProgressBar: React.FC<GenerationProgressBarProps> = ({
       }, 1000);
     }
 
-    if (isLoadingHTML && !response) {
+    if (isLoadingHTML && !generatedHTML) {
       setTimeout(() => {
         setValue(25);
       }, 500);
     }
 
-    if (response) {
+    if (generatedHTML) {
       setValue((prevValue) => prevValue + 3);
     }
 
     return () => clearInterval(interval);
-  }, [isLoadingImages, isLoadingHTML, response]);
+  }, [isLoadingImages, isLoadingHTML, generatedHTML]);
 
   return <Progress className={className} value={value} />;
 };

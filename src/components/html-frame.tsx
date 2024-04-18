@@ -1,18 +1,16 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
+import GenerationContext from '@/contexts/generation-context';
+import HTMLFrameContext from '@/contexts/html-frame-context';
 
 interface HTMLFrameProps {
-  htmlString: string;
   className?: string;
-  highlightID?: string;
 }
 
-const HTMLFrame: React.FC<HTMLFrameProps> = ({
-  htmlString,
-  className,
-  highlightID,
-}) => {
+const HTMLFrame: React.FC<HTMLFrameProps> = ({ className }) => {
+  const { generatedHTML } = useContext(GenerationContext);
+  const { selectedSectionID } = useContext(HTMLFrameContext);
   const frameRef = useRef<HTMLIFrameElement>(null);
   const scriptAddedRef = useRef<boolean>(false);
   const frameClassName = `border border-slate-200 rounded-md ${className}`;
@@ -47,13 +45,13 @@ const HTMLFrame: React.FC<HTMLFrameProps> = ({
         frameRef.current.contentDocument.head.appendChild(scriptElement);
         scriptAddedRef.current = true;
       }
-      frameRef.current.contentDocument.body.innerHTML = htmlString;
+      frameRef.current.contentDocument.body.innerHTML = generatedHTML;
     }
 
-    if (highlightID) {
-      highlightElement(highlightID);
+    if (selectedSectionID) {
+      highlightElement(selectedSectionID);
     }
-  }, [htmlString, highlightID]);
+  }, [generatedHTML, selectedSectionID]);
 
   return <iframe className={frameClassName} ref={frameRef}></iframe>;
 };

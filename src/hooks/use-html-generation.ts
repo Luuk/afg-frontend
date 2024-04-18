@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 import { toast } from 'sonner';
+import GenerationContext from '@/contexts/generation-context';
 
 interface GenerateHTMLData {
   amountOfImages: number[];
@@ -10,14 +11,15 @@ interface GenerateHTMLData {
 }
 
 const useHTMLGeneration = () => {
-  const [response, setResponse] = useState<string>('');
-  const [isLoadingImages, setIsLoadingImages] = useState<boolean>(false);
-  const [isLoadingHTML, setIsLoadingHTML] = useState<boolean>(false);
-  const [isFinished, setIsFinished] = useState<boolean>(false);
+  const { setGenerationState } = useContext(GenerationContext);
 
   const generateHTML = async (data: GenerateHTMLData) => {
-    setResponse('');
-    setIsFinished(false);
+    setGenerationState({
+      isLoadingImages: true,
+      isLoadingHTML: false,
+      isFinished: false,
+      generatedHTML: '',
+    });
 
     let generateImageBody = {
       page_description: data.pageDescription,
@@ -32,27 +34,37 @@ const useHTMLGeneration = () => {
     };
 
     if (data.amountOfImages[0] > 0) {
-      setIsLoadingImages(true);
-      await fetch('http://127.0.0.1:8000/generate/images', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(generateImageBody),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          generateHTMLBody.image_urls = data;
-          setIsLoadingImages(false);
-        })
-        .catch(() => {
-          toast('An error occurred while generating images!', {
-            description: 'Please try again.',
-          });
+      try {
+        generateHTMLBody.image_urls = await fetch(
+          'http://127.0.0.1:8000/generate/images',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(generateImageBody),
+          }
+        ).then((response) => response.json());
+
+        setGenerationState({
+          isLoadingImages: false,
         });
+      } catch (error) {
+        toast('An error occurred while generating images!', {
+          description: 'Please try again.',
+        });
+        setGenerationState({
+          isLoadingImages: false,
+          isLoadingHTML: false,
+          isFinished: true,
+          generatedHTML: '',
+        });
+      }
     }
 
-    setIsLoadingHTML(true);
+    setGenerationState({
+      isLoadingHTML: true,
+    });
 
     try {
       const res = await fetch('http://127.0.0.1:8000/generate/html', {
@@ -65,25 +77,37 @@ const useHTMLGeneration = () => {
 
       if (res.body) {
         const reader = res.body.getReader();
+        let htmlResponse = '';
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
           const decodedValue = new TextDecoder().decode(value);
-          setResponse((prevResponse) => prevResponse + decodedValue);
+          htmlResponse += decodedValue;
+          setGenerationState({
+            generatedHTML: htmlResponse,
+          });
         }
+        setGenerationState({
+          isLoadingImages: false,
+          isLoadingHTML: false,
+          isFinished: true,
+          generatedHTML: htmlResponse,
+        });
       }
-
-      setIsFinished(true);
     } catch (error) {
       toast('An error occurred while generating HTML!', {
         description: 'Please try again.',
       });
+      setGenerationState({
+        isLoadingImages: false,
+        isLoadingHTML: false,
+        isFinished: true,
+        generatedHTML: '',
+      });
     }
-
-    setIsLoadingHTML(false);
   };
 
-  return { generateHTML, isLoadingImages, isLoadingHTML, isFinished, response };
+  return { generateHTML };
 };
 
 export default useHTMLGeneration;

@@ -1,40 +1,41 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/../public/svg/spinner.svg';
 import Sparkle from '@/../public/svg/sparkle.svg';
 import Image from 'next/image';
+import GenerationContext from '@/contexts/generation-context';
+import HTMLFrameContext from '@/contexts/html-frame-context';
 
-interface GenerateButtonProps {
-  isLoadingImages: boolean;
-  isLoadingHTML: boolean;
-  selectedSectionID: string;
-  onClick: () => void;
-}
+const GenerateButton = () => {
+  const { isLoadingImages, isLoadingHTML } = useContext(GenerationContext);
+  const { selectedSectionID } = useContext(HTMLFrameContext);
 
-const GenerateButton: React.FC<GenerateButtonProps> = ({
-  isLoadingImages,
-  isLoadingHTML,
-  selectedSectionID,
-  onClick,
-}) => {
-  let content =
+  const content =
     selectedSectionID !== 'none' ? 'Regenerate Section' : 'Generate';
+
   let spinner = null;
-  if (isLoadingImages || isLoadingHTML) {
-    content = isLoadingImages ? 'Generating Images...' : 'Generating HTML...';
+  let loadingText = null;
+
+  if (isLoadingImages || isLoadingImages) {
     spinner = (
       <Image src={Spinner} className='ml-2 animate-spin' alt='Spinner' />
     );
   }
 
+  if (isLoadingImages) {
+    loadingText = 'Generating Images...';
+  }
+
+  if (isLoadingHTML) {
+    loadingText = 'Generating HTML...';
+  }
+
   return (
-    <Button
-      type='submit'
-      disabled={isLoadingHTML || isLoadingImages}
-      onClick={onClick}
-    >
-      <Image src={Sparkle} className='mr-2' alt='Sparkle' />
-      {content}
+    <Button type='submit' disabled={isLoadingHTML || isLoadingImages}>
+      {!isLoadingHTML && !isLoadingImages && (
+        <Image src={Sparkle} className='mr-2' alt='Sparkle' />
+      )}
+      {loadingText ? loadingText : content}
       {spinner}
     </Button>
   );
