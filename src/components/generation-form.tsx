@@ -115,16 +115,6 @@ const GenerationForm: React.FC<InstructionsFormProps> = ({ className }) => {
             <div className='grid grid-cols-4 items-center pt-2 md:grid-cols-5 md:gap-1'>
               <GenerateButton />
               {isFinished && (
-                <DownloadHTMLButton
-                  htmlString={generatedHTML}
-                  fileName={'output'}
-                  className='ml-2'
-                />
-              )}
-              {(isLoadingHTML || isLoadingImages) && !isFinished && (
-                <GenerationProgressBar className='col-span-2 md:col-span-4' />
-              )}
-              {isFinished && (
                 <ComboBox
                   label='Section'
                   items={[
@@ -134,6 +124,15 @@ const GenerationForm: React.FC<InstructionsFormProps> = ({ className }) => {
                   value={selectedSectionID}
                   onChange={(e) => setHTMLFrameState({ selectedSectionID: e })}
                 />
+              )}
+              {isFinished && (
+                <DownloadHTMLButton
+                  htmlString={generatedHTML}
+                  fileName={'output'}
+                />
+              )}
+              {(isLoadingHTML || isLoadingImages) && !isFinished && (
+                <GenerationProgressBar className='col-span-2 md:col-span-4' />
               )}
             </div>
           </form>
