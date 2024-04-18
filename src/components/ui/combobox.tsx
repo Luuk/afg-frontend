@@ -25,6 +25,7 @@ interface ComboBoxProps {
   label: string;
   items: Item[];
   value?: string;
+  className?: string;
   disabled?: boolean;
   onChange: (value: string) => void;
 }
@@ -33,6 +34,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   label,
   items,
   value,
+  className,
   disabled,
   onChange,
 }) => {
@@ -47,7 +49,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
+      <PopoverTrigger asChild className={className}>
         <Button
           disabled={disabled}
           variant='outline'
