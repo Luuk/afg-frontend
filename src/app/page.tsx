@@ -9,6 +9,7 @@ import { useState } from 'react';
 import HTMLFrameContext, {
   HTMLFrameState,
 } from '@/contexts/html-frame-context';
+import { cn } from '@/lib/utils';
 
 const GenerationPage = () => {
   const [generationState, setGenerationState] = useState<GenerationState>({
@@ -50,7 +51,14 @@ const GenerationPage = () => {
             setHTMLFrameState: updateHTMLFrameState,
           }}
         >
-          <HTMLFrame className='h-[calc(100vh-26.5rem)] w-full lg:h-[calc(100vh-15.5rem)]' />
+          <HTMLFrame
+            className={cn(
+              'h-[calc(100vh-26.5rem)] w-full',
+              generationState.isFinished
+                ? 'lg:h-[calc(100vh-21rem)]'
+                : 'lg:h-[calc(100vh-15.5rem)]'
+            )}
+          />
           <GenerationForm className='pt-2' />
         </HTMLFrameContext.Provider>
       </GenerationContext.Provider>

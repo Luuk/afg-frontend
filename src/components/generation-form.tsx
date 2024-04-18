@@ -35,6 +35,7 @@ const GenerationForm: React.FC<InstructionsFormProps> = ({ className }) => {
       template: 'none',
       amountOfImages: [0],
       toneOfVoice: 'none',
+      selectedSectionID: 'none',
     },
   });
 
@@ -112,19 +113,33 @@ const GenerationForm: React.FC<InstructionsFormProps> = ({ className }) => {
                 )}
               />
             </div>
+            {isFinished && (
+              <FormField
+                control={form.control}
+                name='selectedSectionID'
+                render={({ field: { value, onChange } }) => (
+                  <FormItem>
+                    <Label>Selected Section</Label>
+                    <div>
+                      <ComboBox
+                        label='Section'
+                        items={[
+                          { value: 'none', label: 'None' },
+                          ...getSectionIdsFromHTML(generatedHTML),
+                        ]}
+                        value={value}
+                        onChange={(e) => {
+                          onChange(e);
+                          setHTMLFrameState({ selectedSectionID: e });
+                        }}
+                      />
+                    </div>
+                  </FormItem>
+                )}
+              />
+            )}
             <div className='grid grid-cols-4 items-center pt-2 md:grid-cols-5 md:gap-1'>
               <GenerateButton />
-              {isFinished && (
-                <ComboBox
-                  label='Section'
-                  items={[
-                    { value: 'none', label: 'None' },
-                    ...getSectionIdsFromHTML(generatedHTML),
-                  ]}
-                  value={selectedSectionID}
-                  onChange={(e) => setHTMLFrameState({ selectedSectionID: e })}
-                />
-              )}
               {isFinished && (
                 <DownloadHTMLButton
                   htmlString={generatedHTML}
