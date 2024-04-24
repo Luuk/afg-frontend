@@ -28,6 +28,8 @@ interface ComboBoxProps {
   className?: string;
   disabled?: boolean;
   onChange: (value: string) => void;
+  onHover?: React.MouseEventHandler<HTMLDivElement> | undefined;
+  onClose?: () => void;
 }
 
 const ComboBox: React.FC<ComboBoxProps> = ({
@@ -37,6 +39,8 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   className,
   disabled,
   onChange,
+  onHover,
+  onClose,
 }) => {
   const [open, setOpen] = useState(false);
   const [currentValue, setCurrentValue] = useState(value);
@@ -48,7 +52,15 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   };
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover
+      open={open}
+      onOpenChange={() => {
+        setOpen(!open);
+        if (open && onClose) {
+          onClose();
+        }
+      }}
+    >
       <PopoverTrigger asChild className={className}>
         <Button
           disabled={disabled}
@@ -70,6 +82,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({
           <CommandGroup>
             {items.map((item) => (
               <CommandItem
+                onMouseOver={open ? onHover : undefined}
                 key={item.value}
                 value={item.value}
                 onSelect={handleSelect}

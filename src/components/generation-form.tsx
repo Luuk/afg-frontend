@@ -123,6 +123,18 @@ const GenerationForm: React.FC<InstructionsFormProps> = ({ className }) => {
                     <div>
                       <ComboBox
                         label='Section'
+                        onHover={(e) => {
+                          setHTMLFrameState({
+                            selectedSectionID: e.currentTarget.getAttribute(
+                              'data-value'
+                            ) as string,
+                          });
+                        }}
+                        onClose={() => {
+                          setHTMLFrameState({
+                            selectedSectionID: value,
+                          });
+                        }}
                         items={[
                           { value: 'none', label: 'None' },
                           ...getSectionIdsFromHTML(generatedHTML),
