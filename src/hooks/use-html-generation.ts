@@ -24,7 +24,7 @@ const useHTMLGeneration = () => {
       isLoadingHTML: false,
       isLoadingHTMLSection: false,
       isFinished: false,
-      generatedHTML: data.selectedSectionID === 'none' ? '' : lastGeneratedHTML,
+      generatedHTML: selectedSectionID === 'none' ? '' : lastGeneratedHTML,
     });
 
     let generateImageBody = {
@@ -41,15 +41,16 @@ const useHTMLGeneration = () => {
 
     let regenerateHTMLSectionBody = {
       prompt: data.pageDescription,
-      section_id: data.selectedSectionID,
+      section_id: selectedSectionID,
       html_body: lastGeneratedHTML,
       tone_of_voice: data.toneOfVoice !== 'none' ? data.toneOfVoice : undefined,
     };
 
-    if (data.selectedSectionID !== 'none') {
+    if (selectedSectionID !== 'none') {
       const lastSelectedID = selectedSectionID;
       setHTMLFrameState({
         selectedSectionID: 'none',
+        enableEditMode: false,
       });
       setGenerationState({
         isLoadingHTMLSection: true,
@@ -57,7 +58,7 @@ const useHTMLGeneration = () => {
 
       try {
         const sectionRegex = new RegExp(
-          '<section[^>]*id="' + data.selectedSectionID + '"[^>]*>'
+          '<section[^>]*id="' + lastSelectedID + '"[^>]*>'
         );
         const startIndex = lastGeneratedHTML.search(sectionRegex);
         const endIndex =
@@ -113,6 +114,7 @@ const useHTMLGeneration = () => {
           });
           setHTMLFrameState({
             selectedSectionID: lastSelectedID,
+            enableEditMode: true,
           });
         }
       } catch (error) {
@@ -159,7 +161,7 @@ const useHTMLGeneration = () => {
       }
     }
 
-    if (data.selectedSectionID == 'none') {
+    if (selectedSectionID == 'none') {
       setGenerationState({
         isLoadingHTML: true,
       });

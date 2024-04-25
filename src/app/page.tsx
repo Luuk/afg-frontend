@@ -21,6 +21,7 @@ const GenerationPage: React.FC = () => {
 
   const [htmlFrameState, setHTMLFrameState] = useState<HTMLFrameState>({
     selectedSectionID: 'none',
+    enableEditMode: false,
   });
 
   const updateGenerationState = (newState: Partial<GenerationState>) => {

@@ -2,6 +2,7 @@
 
 import React, { useContext } from 'react';
 import DownloadHTMLButton from '@/components/download-html-button';
+import ToggleEditModeSwitch from '@/components/toggle-edit-mode-switch';
 import { Label } from '@/components/ui/label';
 import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
@@ -12,7 +13,6 @@ import ComboBox from '@/components/ui/combobox';
 import { templateOptions } from '@/lib/template-options';
 import { toneOfVoiceOptions } from '@/lib/tone-of-voice-options';
 import GenerationProgressBar from '@/components/generation-progress-bar';
-import { getSectionIdsFromHTML } from '@/lib/utils';
 import useHTMLGeneration from '@/hooks/use-html-generation';
 import GenerationContext from '@/contexts/generation-context';
 import HTMLFrameContext from '@/contexts/html-frame-context';
@@ -22,9 +22,9 @@ interface InstructionsFormProps {
 }
 
 const GenerationForm: React.FC<InstructionsFormProps> = ({ className }) => {
-  const { isLoadingImages, isLoadingHTML, generatedHTML, isFinished } =
+  const { isLoadingImages, isLoadingHTML, isFinished, generatedHTML } =
     useContext(GenerationContext);
-  const { selectedSectionID, setHTMLFrameState } = useContext(HTMLFrameContext);
+  const { enableEditMode } = useContext(HTMLFrameContext);
   const formClassName = `space-y-8 ${className}`;
   const { generateHTML } = useHTMLGeneration();
   const form = useForm({
@@ -35,7 +35,6 @@ const GenerationForm: React.FC<InstructionsFormProps> = ({ className }) => {
       template: 'none',
       amountOfImages: [0],
       toneOfVoice: 'none',
-      selectedSectionID: 'none',
     },
   });
 
@@ -68,7 +67,7 @@ const GenerationForm: React.FC<InstructionsFormProps> = ({ className }) => {
                     <div>
                       <ComboBox
                         label='Templates'
-                        disabled={selectedSectionID !== 'none'}
+                        disabled={enableEditMode}
                         items={templateOptions}
                         onChange={onChange}
                         value={value}
@@ -85,7 +84,7 @@ const GenerationForm: React.FC<InstructionsFormProps> = ({ className }) => {
                     <Label>Images to Generate</Label>
                     <p className='text-sm'>{value} Images</p>
                     <Slider
-                      disabled={selectedSectionID !== 'none'}
+                      disabled={enableEditMode}
                       defaultValue={[0]}
                       min={0}
                       max={5}
@@ -113,51 +112,16 @@ const GenerationForm: React.FC<InstructionsFormProps> = ({ className }) => {
                 )}
               />
             </div>
-            {isFinished && (
-              <FormField
-                control={form.control}
-                name='selectedSectionID'
-                render={({ field: { value, onChange } }) => (
-                  <FormItem>
-                    <Label>Selected Section</Label>
-                    <div>
-                      <ComboBox
-                        label='Section'
-                        onHover={(e) => {
-                          setHTMLFrameState({
-                            selectedSectionID: e.currentTarget.getAttribute(
-                              'data-value'
-                            ) as string,
-                          });
-                        }}
-                        onClose={() => {
-                          setHTMLFrameState({
-                            selectedSectionID: value,
-                          });
-                        }}
-                        items={[
-                          { value: 'none', label: 'None' },
-                          ...getSectionIdsFromHTML(generatedHTML),
-                        ]}
-                        value={value}
-                        onChange={(e) => {
-                          onChange(e);
-                          setHTMLFrameState({ selectedSectionID: e });
-                        }}
-                      />
-                    </div>
-                  </FormItem>
-                )}
-              />
-            )}
-            <div className='grid grid-cols-4 items-center pt-2 md:grid-cols-5 md:gap-1'>
+            <div className='grid auto-rows-max grid-cols-4 items-center pt-2 md:grid-cols-5 md:gap-1'>
               <GenerateButton />
-              {isFinished && (
-                <DownloadHTMLButton
-                  htmlString={generatedHTML}
-                  fileName={'output'}
-                />
-              )}
+              {isFinished && <ToggleEditModeSwitch />}
+              {/*{isFinished && !enableEditMode && (*/}
+              {/*  <DownloadHTMLButton*/}
+              {/*    className='justify-self-end'*/}
+              {/*    htmlString={generatedHTML}*/}
+              {/*    fileName={'output'}*/}
+              {/*  />*/}
+              {/*)}*/}
               {(isLoadingHTML || isLoadingImages) && !isFinished && (
                 <GenerationProgressBar className='col-span-2 md:col-span-4' />
               )}

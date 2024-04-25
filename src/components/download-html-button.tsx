@@ -43,7 +43,6 @@ const DownloadHTMLButton: React.FC<DownloadHTMLProps> = ({
       onClick={handleDownload}
     >
       <Image src={Download} className='mr-2' alt='Download' />
-      Download
     </Button>
   );
 };

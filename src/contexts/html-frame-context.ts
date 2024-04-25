@@ -2,6 +2,7 @@ import { createContext } from 'react';
 
 export interface HTMLFrameState {
   selectedSectionID: string;
+  enableEditMode: boolean;
 }
 
 export interface HTMLFrameContextType extends HTMLFrameState {
@@ -10,6 +11,7 @@ export interface HTMLFrameContextType extends HTMLFrameState {
 
 const HTMLFrameContext = createContext<HTMLFrameContextType>({
   selectedSectionID: 'none',
+  enableEditMode: false,
   setHTMLFrameState: () => {},
 });
 
