@@ -10,6 +10,7 @@ const ToggleEditModeSwitch = () => {
   return (
     <Toggle
       variant='outline'
+      pressed={enableEditMode}
       onClick={() => setHTMLFrameState({ enableEditMode: !enableEditMode })}
     >
       {enableEditMode && (
