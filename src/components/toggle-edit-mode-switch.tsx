@@ -14,7 +14,7 @@ const ToggleEditModeSwitch = () => {
       onClick={() => setHTMLFrameState({ enableEditMode: !enableEditMode })}
     >
       {enableEditMode && (
-        <Image src={Check} className='mr-2 h-5 w-5' alt='Download' />
+        <Image src={Check} className='mr-2 h-5 w-5' alt='Check' />
       )}
       Edit Mode
     </Toggle>
