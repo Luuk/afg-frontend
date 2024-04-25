@@ -32,7 +32,7 @@ const GenerateButton = () => {
   }
 
   if (isLoadingHTMLSection) {
-    loadingText = 'Generating section...';
+    loadingText = 'Regenerating section...';
   }
 
   return (
