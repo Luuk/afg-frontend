@@ -7,7 +7,8 @@ import GenerationContext from '@/contexts/generation-context';
 import HTMLFrameContext from '@/contexts/html-frame-context';
 
 const GenerateButton = () => {
-  const { isLoadingImages, isLoadingHTML } = useContext(GenerationContext);
+  const { isLoadingImages, isLoadingHTML, isLoadingHTMLSection } =
+    useContext(GenerationContext);
   const { selectedSectionID } = useContext(HTMLFrameContext);
 
   const content =
@@ -16,7 +17,7 @@ const GenerateButton = () => {
   let spinner = null;
   let loadingText = null;
 
-  if (isLoadingImages || isLoadingHTML) {
+  if (isLoadingImages || isLoadingHTML || isLoadingHTMLSection) {
     spinner = (
       <Image src={Spinner} className='ml-2 animate-spin' alt='Spinner' />
     );
@@ -30,8 +31,15 @@ const GenerateButton = () => {
     loadingText = 'Generating HTML...';
   }
 
+  if (isLoadingHTMLSection) {
+    loadingText = 'Generating section...';
+  }
+
   return (
-    <Button type='submit' disabled={isLoadingHTML || isLoadingImages}>
+    <Button
+      type='submit'
+      disabled={isLoadingHTML || isLoadingImages || isLoadingHTMLSection}
+    >
       {!isLoadingHTML && !isLoadingImages && (
         <Image src={Sparkle} className='mr-2' alt='Sparkle' />
       )}

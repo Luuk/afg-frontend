@@ -22,6 +22,7 @@ const useHTMLGeneration = () => {
     setGenerationState({
       isLoadingImages: true,
       isLoadingHTML: false,
+      isLoadingHTMLSection: false,
       isFinished: false,
       generatedHTML: data.selectedSectionID === 'none' ? '' : lastGeneratedHTML,
     });
@@ -51,7 +52,7 @@ const useHTMLGeneration = () => {
         selectedSectionID: 'none',
       });
       setGenerationState({
-        isLoadingHTML: true,
+        isLoadingHTMLSection: true,
       });
 
       try {
@@ -70,6 +71,7 @@ const useHTMLGeneration = () => {
           setGenerationState({
             isLoadingImages: false,
             isLoadingHTML: false,
+            isLoadingHTMLSection: false,
             isFinished: true,
             generatedHTML: '',
           });
@@ -106,6 +108,7 @@ const useHTMLGeneration = () => {
           setGenerationState({
             isLoadingImages: false,
             isLoadingHTML: false,
+            isLoadingHTMLSection: false,
             isFinished: true,
           });
           setHTMLFrameState({
@@ -119,6 +122,7 @@ const useHTMLGeneration = () => {
         setGenerationState({
           isLoadingImages: false,
           isLoadingHTML: false,
+          isLoadingHTMLSection: false,
           isFinished: true,
           generatedHTML: '',
         });
@@ -148,6 +152,7 @@ const useHTMLGeneration = () => {
         setGenerationState({
           isLoadingImages: false,
           isLoadingHTML: false,
+          isLoadingHTMLSection: false,
           isFinished: true,
           generatedHTML: '',
         });
@@ -183,6 +188,7 @@ const useHTMLGeneration = () => {
           setGenerationState({
             isLoadingImages: false,
             isLoadingHTML: false,
+            isLoadingHTMLSection: false,
             isFinished: true,
             generatedHTML: htmlResponse,
           });
@@ -194,6 +200,7 @@ const useHTMLGeneration = () => {
         setGenerationState({
           isLoadingImages: false,
           isLoadingHTML: false,
+          isLoadingHTMLSection: false,
           isFinished: true,
           generatedHTML: '',
         });

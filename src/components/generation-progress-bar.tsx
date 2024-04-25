@@ -11,8 +11,12 @@ interface GenerationProgressBarProps {
 const GenerationProgressBar: React.FC<GenerationProgressBarProps> = ({
   className,
 }) => {
-  const { isLoadingImages, isLoadingHTML, generatedHTML } =
-    useContext(GenerationContext);
+  const {
+    isLoadingImages,
+    isLoadingHTML,
+    isLoadingHTMLSection,
+    generatedHTML,
+  } = useContext(GenerationContext);
   const [value, setValue] = useState<number>(0);
 
   useEffect(() => {
@@ -37,11 +41,11 @@ const GenerationProgressBar: React.FC<GenerationProgressBarProps> = ({
     }
 
     if (generatedHTML) {
-      setValue((prevValue) => prevValue + 3);
+      setValue((prevValue) => prevValue + (isLoadingHTMLSection ? 10 : 3));
     }
 
     return () => clearInterval(interval);
-  }, [isLoadingImages, isLoadingHTML, generatedHTML]);
+  }, [isLoadingImages, isLoadingHTML, generatedHTML, isLoadingHTMLSection]);
 
   return <Progress className={className} value={value} />;
 };
