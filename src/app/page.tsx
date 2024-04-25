@@ -1,20 +1,20 @@
 'use client';
 
+import React, { useState } from 'react';
 import HTMLFrame from '@/components/html-frame';
 import GenerationForm from '@/components/generation-form';
 import GenerationContext, {
   GenerationState,
 } from '@/contexts/generation-context';
-import { useState } from 'react';
 import HTMLFrameContext, {
   HTMLFrameState,
 } from '@/contexts/html-frame-context';
-import { cn } from '@/lib/utils';
 
-const GenerationPage = () => {
+const GenerationPage: React.FC = () => {
   const [generationState, setGenerationState] = useState<GenerationState>({
     isLoadingImages: false,
     isLoadingHTML: false,
+    isLoadingHTMLSection: false,
     isFinished: false,
     generatedHTML: '',
   });
@@ -38,7 +38,7 @@ const GenerationPage = () => {
   };
 
   return (
-    <div className='h-full'>
+    <div className='flex h-[calc(100vh-1.5rem)] flex-col'>
       <GenerationContext.Provider
         value={{
           ...generationState,
@@ -51,14 +51,7 @@ const GenerationPage = () => {
             setHTMLFrameState: updateHTMLFrameState,
           }}
         >
-          <HTMLFrame
-            className={cn(
-              'h-[calc(100vh-26.5rem)] w-full',
-              generationState.isFinished
-                ? 'lg:h-[calc(100vh-21rem)]'
-                : 'lg:h-[calc(100vh-15.5rem)]'
-            )}
-          />
+          <HTMLFrame className='w-full flex-grow' />
           <GenerationForm className='pt-2' />
         </HTMLFrameContext.Provider>
       </GenerationContext.Provider>
