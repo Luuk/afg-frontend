@@ -55,6 +55,27 @@ const useHTMLGeneration = () => {
       });
 
       try {
+        const sectionRegex = new RegExp(
+          '<section[^>]*id="' + data.selectedSectionID + '"[^>]*>'
+        );
+        const startIndex = lastGeneratedHTML.search(sectionRegex);
+        const endIndex =
+          lastGeneratedHTML.indexOf('</section>', startIndex) +
+          '</section>'.length;
+
+        if (startIndex == -1 || endIndex == -1) {
+          toast('An error occurred while generating HTML!', {
+            description: 'Please try again.',
+          });
+          setGenerationState({
+            isLoadingImages: false,
+            isLoadingHTML: false,
+            isFinished: true,
+            generatedHTML: '',
+          });
+          return;
+        }
+
         const res = await fetch(
           'http://127.0.0.1:8000/regenerate/html/section',
           {
@@ -67,25 +88,6 @@ const useHTMLGeneration = () => {
         );
 
         if (res.body) {
-          const startIndex = lastGeneratedHTML.indexOf(
-            '<section id="' + data.selectedSectionID + '">'
-          );
-          const endIndex =
-            lastGeneratedHTML.indexOf('</section>', startIndex) +
-            '</section>'.length;
-
-          if (startIndex == -1 || endIndex == -1) {
-            toast('An error occurred while generating HTML!', {
-              description: 'Please try again.',
-            });
-            setGenerationState({
-              isLoadingImages: false,
-              isLoadingHTML: false,
-              isFinished: true,
-              generatedHTML: '',
-            });
-          }
-
           const reader = res.body.getReader();
           let htmlResponse = '';
           while (true) {
