@@ -112,7 +112,7 @@ const GenerationForm: React.FC<InstructionsFormProps> = ({ className }) => {
                 )}
               />
             </div>
-            <div className='grid auto-rows-max grid-cols-4 items-center pt-2 md:grid-cols-5 md:gap-1'>
+            <div className='grid auto-rows-max grid-cols-2 items-center gap-1 pt-2 md:gap-2 lg:grid-cols-5'>
               <GenerateButton />
               {isFinished && <ToggleEditModeSwitch />}
               {/*{isFinished && !enableEditMode && (*/}
