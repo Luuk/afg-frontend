@@ -45,6 +45,8 @@ const HTMLFrame: React.FC<HTMLFrameProps> = ({ className }) => {
       while (target && target.tagName !== 'SECTION') {
         if (target.parentElement) {
           target = target.parentElement;
+        } else {
+          break;
         }
       }
 
@@ -55,6 +57,8 @@ const HTMLFrame: React.FC<HTMLFrameProps> = ({ className }) => {
             selectedSectionID: sectionId,
           });
         }
+      } else {
+        return;
       }
     };
 
