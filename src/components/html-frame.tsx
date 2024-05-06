@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
+
 import GenerationContext from '@/contexts/generation-context';
 import HTMLFrameContext from '@/contexts/html-frame-context';
 import { cn } from '@/lib/utils';
@@ -37,6 +38,10 @@ const HTMLFrame: React.FC<HTMLFrameProps> = ({ className }) => {
   useEffect(() => {
     if (!frameRef.current) return;
 
+    setHTMLFrameState({
+      htmlFrameRef: frameRef,
+    });
+
     const frameDocument = frameRef.current.contentDocument;
 
     const handleClick = (event: MouseEvent) => {
@@ -65,9 +70,8 @@ const HTMLFrame: React.FC<HTMLFrameProps> = ({ className }) => {
     if (frameDocument) {
       if (!initialized && enableEditMode) {
         frameDocument.addEventListener('click', handleClick);
+        frameDocument.addEventListener('load', () => console.log('loaded'));
         setInitialized(true);
-      } else {
-        frameDocument.removeEventListener('click', handleClick);
       }
 
       if (!enableEditMode) {
@@ -89,6 +93,7 @@ const HTMLFrame: React.FC<HTMLFrameProps> = ({ className }) => {
       }
 
       frameDocument.body.innerHTML = generatedHTML;
+      frameDocument.onload && frameDocument.onload(new Event(''));
 
       if (enableEditMode) {
         const sections = frameDocument.querySelectorAll('section');
@@ -123,7 +128,6 @@ const HTMLFrame: React.FC<HTMLFrameProps> = ({ className }) => {
     generatedHTML,
     selectedSectionID,
     initialized,
-    setHTMLFrameState,
     isFinished,
     enableEditMode,
   ]);

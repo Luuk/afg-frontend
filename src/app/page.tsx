@@ -9,6 +9,7 @@ import GenerationContext, {
 import HTMLFrameContext, {
   HTMLFrameState,
 } from '@/contexts/html-frame-context';
+import { ImagesPortal } from '@/components/images-portal';
 
 const GenerationPage: React.FC = () => {
   const [generationState, setGenerationState] = useState<GenerationState>({
@@ -22,6 +23,7 @@ const GenerationPage: React.FC = () => {
   const [htmlFrameState, setHTMLFrameState] = useState<HTMLFrameState>({
     selectedSectionID: 'none',
     enableEditMode: false,
+    htmlFrameRef: null,
   });
 
   const updateGenerationState = (newState: Partial<GenerationState>) => {
@@ -52,6 +54,7 @@ const GenerationPage: React.FC = () => {
             setHTMLFrameState: updateHTMLFrameState,
           }}
         >
+          <ImagesPortal />
           <HTMLFrame className='w-full flex-grow' />
           <GenerationForm className='pt-2' />
         </HTMLFrameContext.Provider>
