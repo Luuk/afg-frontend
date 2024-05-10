@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useContext } from 'react';
-import DownloadHTMLButton from '@/components/download-html-button';
 import ToggleEditModeSwitch from '@/components/toggle-edit-mode-switch';
 import { Label } from '@/components/ui/label';
 import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
@@ -22,7 +21,7 @@ interface InstructionsFormProps {
 }
 
 const GenerationForm: React.FC<InstructionsFormProps> = ({ className }) => {
-  const { isLoadingImages, isLoadingHTML, isFinished, generatedHTML } =
+  const { isLoadingImages, isLoadingHTML, isFinished } =
     useContext(GenerationContext);
   const { enableEditMode } = useContext(HTMLFrameContext);
   const formClassName = `space-y-8 ${className}`;
@@ -115,13 +114,6 @@ const GenerationForm: React.FC<InstructionsFormProps> = ({ className }) => {
             <div className='grid auto-rows-max grid-cols-2 items-center gap-1 pt-2 md:gap-2 lg:grid-cols-5'>
               <GenerateButton />
               {isFinished && <ToggleEditModeSwitch />}
-              {/*{isFinished && !enableEditMode && (*/}
-              {/*  <DownloadHTMLButton*/}
-              {/*    className='justify-self-end'*/}
-              {/*    htmlString={generatedHTML}*/}
-              {/*    fileName={'output'}*/}
-              {/*  />*/}
-              {/*)}*/}
               {(isLoadingHTML || isLoadingImages) && !isFinished && (
                 <GenerationProgressBar className='col-span-2 md:col-span-4' />
               )}

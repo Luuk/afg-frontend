@@ -6,7 +6,7 @@ import ArrowRight from '../../public/svg/arrow-right.svg';
 import Photo from '../../public/svg/photo.svg';
 
 interface ImageWrapProps {
-  imageElement: ReactElement<any, any>;
+  imageElement: ReactElement<HTMLImageElement>;
   replaceWith: HTMLImageElement;
 }
 
@@ -14,6 +14,10 @@ export const ImageRegenerateWrap: React.FC<ImageWrapProps> = ({
   imageElement,
   replaceWith,
 }) => {
+  // const { generateImage } = useImageGeneration();
+
+  const onRegenerateImage = async () => {};
+
   return (
     <div
       className='relative'
@@ -32,15 +36,13 @@ export const ImageRegenerateWrap: React.FC<ImageWrapProps> = ({
         <Button
           size='sm'
           className='rounded-l-none bg-white opacity-90 hover:opacity-100'
-          onClick={() => {
-            console.log(imageElement);
-          }}
         >
           <Image src={ArrowRight} alt='Arrow Right' />
         </Button>
         <Button
           size='sm'
           className='absolute right-0 mr-4 bg-white opacity-90 hover:opacity-100'
+          onClick={() => onRegenerateImage()}
         >
           <Image src={Photo} alt='Arrow Left' />
           <p className='ml-2'>Regenerate</p>
