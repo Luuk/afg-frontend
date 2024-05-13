@@ -133,13 +133,23 @@ const HTMLFrame: React.FC<HTMLFrameProps> = ({ className }) => {
   ]);
 
   return (
-    <iframe
-      className={cn(
-        `rounded-md border border-slate-200 transition-all ${className}`,
-        enableEditMode && 'border-primary'
-      )}
-      ref={frameRef}
-    ></iframe>
+    <>
+      <div
+        className={cn(
+          'absolute left-1/2 top-2 z-10 -translate-x-1/2 transform rounded-b-md bg-slate-900 px-4 py-2 text-white transition-all',
+          enableEditMode ? 'opacity-100' : 'opacity-0'
+        )}
+      >
+        Edit Mode
+      </div>
+      <iframe
+        className={cn(
+          `relative rounded-md border border-slate-200 transition-all ${className}`,
+          enableEditMode && 'border-4 border-primary'
+        )}
+        ref={frameRef}
+      ></iframe>
+    </>
   );
 };
 

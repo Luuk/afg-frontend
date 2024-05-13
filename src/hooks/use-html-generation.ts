@@ -10,6 +10,7 @@ interface GenerateHTMLData {
   toneOfVoice?: string;
   template?: string;
   selectedSectionID?: string;
+  stylingFramework: string;
 }
 
 const useHTMLGeneration = () => {
@@ -37,6 +38,7 @@ const useHTMLGeneration = () => {
       image_urls: undefined,
       tone_of_voice: data.toneOfVoice !== 'none' ? data.toneOfVoice : undefined,
       template_name: data.template !== 'none' ? data.template : undefined,
+      styling_framework: data.stylingFramework,
     };
 
     let regenerateHTMLSectionBody = {
@@ -44,6 +46,7 @@ const useHTMLGeneration = () => {
       section_id: selectedSectionID,
       html_body: lastGeneratedHTML,
       tone_of_voice: data.toneOfVoice !== 'none' ? data.toneOfVoice : undefined,
+      styling_framework: data.stylingFramework,
     };
 
     if (selectedSectionID !== 'none') {

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ToggleEditModeSwitch from '@/components/toggle-edit-mode-switch';
 import { Label } from '@/components/ui/label';
 import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
@@ -15,6 +15,7 @@ import GenerationProgressBar from '@/components/generation-progress-bar';
 import useHTMLGeneration from '@/hooks/use-html-generation';
 import GenerationContext from '@/contexts/generation-context';
 import HTMLFrameContext from '@/contexts/html-frame-context';
+import { stylingFrameworkOptions } from '@/lib/styling-framework-options';
 
 interface InstructionsFormProps {
   className?: string;
@@ -34,8 +35,20 @@ const GenerationForm: React.FC<InstructionsFormProps> = ({ className }) => {
       template: 'none',
       amountOfImages: [0],
       toneOfVoice: 'none',
+      stylingFramework: 'css',
     },
   });
+
+  const [originalPageDescription, setOriginalPageDescription] =
+    useState<string>(form.getValues('pageDescription'));
+
+  useEffect(() => {
+    if (enableEditMode) {
+      form.setValue('pageDescription', '');
+    } else {
+      form.setValue('pageDescription', originalPageDescription);
+    }
+  }, [enableEditMode, form, originalPageDescription]);
 
   return (
     <div className={formClassName}>
@@ -51,18 +64,20 @@ const GenerationForm: React.FC<InstructionsFormProps> = ({ className }) => {
               render={({ field }) => (
                 <FormItem>
                   <Label>Input</Label>
-                  <Textarea {...field} placeholder='Page Description' />
+                  <Textarea {...field} placeholder='Description' />
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <div className='grid gap-4 lg:grid-cols-3 lg:gap-20'>
+            <div className='grid gap-4 lg:grid-cols-4 lg:gap-5'>
               <FormField
                 control={form.control}
                 name='template'
                 render={({ field: { value, onChange } }) => (
                   <FormItem>
-                    <Label>Template</Label>
+                    <Label className={enableEditMode ? 'text-black/20' : ''}>
+                      Template
+                    </Label>
                     <div>
                       <ComboBox
                         label='Templates'
@@ -80,8 +95,14 @@ const GenerationForm: React.FC<InstructionsFormProps> = ({ className }) => {
                 name='amountOfImages'
                 render={({ field: { value, onChange } }) => (
                   <FormItem>
-                    <Label>Images to Generate</Label>
-                    <p className='text-sm'>{value} Images</p>
+                    <Label className={enableEditMode ? 'text-black/20' : ''}>
+                      Images to Generate
+                    </Label>
+                    <p
+                      className={`text-sm ${enableEditMode && 'text-black/20'}`}
+                    >
+                      {value} Images
+                    </p>
                     <Slider
                       disabled={enableEditMode}
                       defaultValue={[0]}
@@ -110,13 +131,36 @@ const GenerationForm: React.FC<InstructionsFormProps> = ({ className }) => {
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name='stylingFramework'
+                render={({ field: { value, onChange } }) => (
+                  <FormItem>
+                    <Label className={enableEditMode ? 'text-black/20' : ''}>
+                      Styling Framework
+                    </Label>
+                    <div>
+                      <ComboBox
+                        disabled={enableEditMode}
+                        label='Styling Framework'
+                        items={stylingFrameworkOptions}
+                        onChange={onChange}
+                        value={value}
+                      />
+                    </div>
+                  </FormItem>
+                )}
+              />
             </div>
             <div className='grid auto-rows-max grid-cols-2 items-center gap-1 pt-2 md:gap-2 lg:grid-cols-5'>
               <GenerateButton />
-              {isFinished && <ToggleEditModeSwitch />}
-              {(isLoadingHTML || isLoadingImages) && !isFinished && (
-                <GenerationProgressBar className='col-span-2 md:col-span-4' />
+              {!isLoadingHTML && !isLoadingImages && isFinished && (
+                <ToggleEditModeSwitch />
               )}
+              {isLoadingHTML ||
+                (isLoadingImages && (
+                  <GenerationProgressBar className='col-span-2 md:col-span-4' />
+                ))}
             </div>
           </form>
         </Form>
